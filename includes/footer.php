@@ -5,7 +5,7 @@
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-4 md:mb-0">
-                    <p class="text-xs">&copy; <?= date('Y') ?> PIXEL EVENTS</p>
+                    <p class="text-xs">&copy; <?= date('Y') ?>EVENTS</p>
                 </div>
                 <div class="flex space-x-6">
                     <a href="#" class="text-white hover:text-warning transition-colors duration-200">
