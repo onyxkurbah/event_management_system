@@ -6,44 +6,56 @@ include 'db.php';
 $events = $conn->query("SELECT * FROM events")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<h2>Upcoming Events</h2>
-<div class="table-wrapper">
-<table>
-    <tr>
-        <th>Event Name</th>
-        <th>Date</th>
-        <th>Location</th>
-        <th>Ticket Price</th>
-        <th>Actions</th>
-    </tr>
-    <?php foreach ($events as $event): ?>
-        <tr>
-            <td><?= $event['event_name'] ?></td>
-            <td><?= date('F j, Y, g:i a', strtotime($event['event_date'])) ?></td>
-            <td><?= $event['event_location'] ?></td>
-            <td><span class="rupee-symbol">₹</span><?=number_format($event['ticket_price'], 2) ?></td>
-            <td class="action-links">
-                <a href="edit_event.php?event_id=<?= $event['event_id'] ?>" class="action-btn">Edit</a>
-                <a href="delete_event.php?event_id=<?= $event['event_id'] ?>" class="action-btn danger" onclick="return confirm('Are you sure you want to delete this event?')">Delete</a>
-                <a href="register_attendee.php?event_id=<?= $event['event_id'] ?>" class="action-btn success">Register</a>
-                <a href="view_attendees.php?event_id=<?= $event['event_id'] ?>" class="action-btn info">View</a>
-                <a href="event_analytics.php?event_id=<?= $event['event_id'] ?>" class="action-btn warning">Analytics</a>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+<div class="mb-8 flex justify-between items-center">
+    <h2 class="text-xl text-dark border-b-4 border-primary pb-2">UPCOMING EVENTS</h2>
+    <a href="create_event.php" class="pixel-button bg-accent text-white px-4 py-2 border-2 border-black">
+        NEW EVENT
+    </a>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const main = document.querySelector('main');
-        for (let i = 0; i < 30; i++) {
-            const star = document.createElement('div');
-            star.classList.add('star');
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 4 + 's';
-            main.appendChild(star);
-        }
-    });
-</script>
+
+<div class="pixel-card animate-pixel mb-8">
+    <div class="overflow-x-auto">
+        <table class="w-full pixel-table">
+            <thead>
+                <tr>
+                    <th class="px-4 py-3 text-left">EVENT NAME</th>
+                    <th class="px-4 py-3 text-left">DATE</th>
+                    <th class="px-4 py-3 text-left">LOCATION</th>
+                    <th class="px-4 py-3 text-left">PRICE</th>
+                    <th class="px-4 py-3 text-left">ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($events as $event): ?>
+                    <tr>
+                        <td class="px-4 py-3"><?= $event['event_name'] ?></td>
+                        <td class="px-4 py-3"><?= date('M j, Y', strtotime($event['event_date'])) ?></td>
+                        <td class="px-4 py-3"><?= $event['event_location'] ?></td>
+                        <td class="px-4 py-3">₹<?= number_format($event['ticket_price'], 2) ?></td>
+                        <td class="px-4 py-3">
+                            <div class="flex space-x-2">
+                                <a href="edit_event.php?event_id=<?= $event['event_id'] ?>" class="pixel-button bg-primary text-white px-2 py-1 border-2 border-black text-[10px]">
+                                    EDIT
+                                </a>
+                                <a href="delete_event.php?event_id=<?= $event['event_id'] ?>" class="pixel-button bg-danger text-white px-2 py-1 border-2 border-black text-[10px]" onclick="return confirm('Are you sure you want to delete this event?')">
+                                    DELETE
+                                </a>
+                                <a href="register_attendee.php?event_id=<?= $event['event_id'] ?>" class="pixel-button bg-success text-white px-2 py-1 border-2 border-black text-[10px]">
+                                    REGISTER
+                                </a>
+                                <a href="view_attendees.php?event_id=<?= $event['event_id'] ?>" class="pixel-button bg-warning text-dark px-2 py-1 border-2 border-black text-[10px]">
+                                    ATTENDEES
+                                </a>
+                                <a href="event_analytics.php?event_id=<?= $event['event_id'] ?>" class="pixel-button bg-secondary text-white px-2 py-1 border-2 border-black text-[10px]">
+                                    STATS
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <?php include 'includes/footer.php'; ?>

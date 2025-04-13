@@ -20,30 +20,62 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ':ticket_price' => $ticket_price
     ]);
 
-    echo "<div class='message success fade-in pixel-borders'><p>Event created successfully!</p></div>";
+    echo "<div class='mb-6 bg-success border-2 border-black p-4 animate-pixel'>
+            <p class='text-white'>EVENT CREATED SUCCESSFULLY!</p>
+          </div>";
 }
 ?>
 
-<h2>Create Event</h2>
+<div class="mb-6 flex items-center">
+    <a href="index.php" class="mr-3 pixel-button bg-primary text-white px-3 py-1 border-2 border-black">
+        BACK
+    </a>
+    <h2 class="text-xl text-dark border-b-4 border-accent pb-2">CREATE NEW EVENT</h2>
+</div>
 
-<form method="POST" class="pixel-borders">
-    <label>Event Name:</label>
-    <input type="text" name="event_name" required>
-    
-    <label>Description:</label>
-    <textarea name="event_description" required></textarea>
-    
-    <label>Date:</label>
-    <input type="datetime-local" name="event_date" required>
-    
-    <label>Location:</label>
-    <input type="text" name="event_location" required>
-    
-    <label>Ticket Price:</label>
-    <input type="number" step="0.01" name="ticket_price" required>
-    
-    <button type="submit">Create Event</button>
-</form>
+<div class="pixel-card animate-pixel mb-8">
+    <div class="p-6">
+        <form method="POST">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="col-span-2">
+                    <label for="event_name" class="block mb-2">EVENT NAME</label>
+                    <input type="text" id="event_name" name="event_name" required 
+                           class="w-full px-4 py-2 pixel-input">
+                </div>
+                
+                <div class="col-span-2">
+                    <label for="event_description" class="block mb-2">DESCRIPTION</label>
+                    <textarea id="event_description" name="event_description" rows="4" required
+                              class="w-full px-4 py-2 pixel-input"></textarea>
+                </div>
+                
+                <div>
+                    <label for="event_date" class="block mb-2">DATE & TIME</label>
+                    <input type="datetime-local" id="event_date" name="event_date" required
+                           class="w-full px-4 py-2 pixel-input">
+                </div>
+                
+                <div>
+                    <label for="event_location" class="block mb-2">LOCATION</label>
+                    <input type="text" id="event_location" name="event_location" required
+                           class="w-full px-4 py-2 pixel-input">
+                </div>
+                
+                <div>
+                    <label for="ticket_price" class="block mb-2">TICKET PRICE (₹)</label>
+                    <input type="number" id="ticket_price" name="ticket_price" step="0.01" required
+                           class="w-full px-4 py-2 pixel-input">
+                </div>
+            </div>
+            
+            <div class="mt-8 flex items-center justify-end">
+                <a href="index.php" class="mr-4 text-dark hover:text-primary">CANCEL</a>
+                <button type="submit" class="pixel-button bg-accent text-white px-4 py-2 border-2 border-black">
+                    CREATE EVENT
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
 <?php include 'includes/footer.php'; ?>
-
