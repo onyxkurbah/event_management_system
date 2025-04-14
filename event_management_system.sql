@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 18, 2025 at 08:10 AM
+-- Generation Time: Apr 14, 2025 at 08:14 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,15 +34,9 @@ CREATE TABLE `attendees` (
   `email` varchar(255) NOT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `ticket_number` varchar(50) NOT NULL,
+  `qr_code_url` varchar(255) DEFAULT NULL,
   `registered_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `attendees`
---
--- example data --
-INSERT INTO `attendees` (`attendee_id`, `event_id`, `full_name`, `email`, `phone`, `ticket_number`, `registered_at`) VALUES
-(16, 10, 'Onyx Kurbah', 'onyxkurbah0@gmail.com', '7630048527', 'TICKET-67d84d2c0a669', '2025-03-17 16:26:20');
 
 -- --------------------------------------------------------
 
@@ -59,14 +53,6 @@ CREATE TABLE `events` (
   `ticket_price` decimal(10,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `events`
---
-
-INSERT INTO `events` (`event_id`, `event_name`, `event_description`, `event_date`, `event_location`, `ticket_price`, `created_at`) VALUES
-(10, 'Hackathon 2.0', 'lmomhjb', '2025-03-28 09:02:00', 'Synod College', 8.00, '2025-03-17 16:25:14'),
-(11, 'Debate', 'terutyjfvbn', '2025-03-31 02:28:00', 'Ur Mum\'s House', 45.00, '2025-03-17 16:55:12');
 
 --
 -- Indexes for dumped tables
@@ -94,13 +80,13 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `attendees`
 --
 ALTER TABLE `attendees`
-  MODIFY `attendee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `attendee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables

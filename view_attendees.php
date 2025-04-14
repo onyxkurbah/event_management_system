@@ -52,9 +52,17 @@ $attendees = $conn->query("SELECT * FROM attendees WHERE event_id = $event_id")-
                                 <span class="bg-primary text-white px-2 py-1 border-2 border-black"><?= $attendee['ticket_number'] ?></span>
                             </td>
                             <td class="px-4 py-3">
-                                <a href="delete_attendee.php?attendee_id=<?= $attendee['attendee_id'] ?>" class="pixel-button bg-danger text-white px-2 py-1 border-2 border-black text-[10px]" onclick="return confirm('Are you sure you want to delete this attendee?')">
-                                    DELETE
-                                </a>
+                                <div class="flex space-x-2">
+                                    <a href="view_ticket.php?attendee_id=<?= $attendee['attendee_id'] ?>" 
+                                       class="pixel-button bg-secondary text-white px-2 py-1 border-2 border-black text-[10px]">
+                                        TICKET
+                                    </a>
+                                    <a href="delete_attendee.php?attendee_id=<?= $attendee['attendee_id'] ?>" 
+                                       class="pixel-button bg-danger text-white px-2 py-1 border-2 border-black text-[10px]" 
+                                       onclick="return confirm('Are you sure you want to delete this attendee?')">
+                                        DELETE
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -75,6 +83,10 @@ $attendees = $conn->query("SELECT * FROM attendees WHERE event_id = $event_id")-
     
     <a href="register_attendee.php?event_id=<?= $event_id ?>" class="pixel-button bg-success text-white px-4 py-2 border-2 border-black">
         REGISTER NEW ATTENDEE
+    </a>
+    
+    <a href="verify_ticket.php" class="pixel-button bg-primary text-white px-4 py-2 border-2 border-black">
+        VERIFY TICKET
     </a>
 </div>
 
