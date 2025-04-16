@@ -12,50 +12,117 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($attendee) {
         echo '<div class="pixel-card animate-pixel mb-6 bg-success border-2 border-black p-4">
-                <p class="text-white">TICKET VERIFIED!</p>
-                <p class="text-white mt-2">EVENT: '.$attendee['event_name'].'</p>
-                <p class="text-white">ATTENDEE: '.$attendee['full_name'].'</p>
-                <p class="text-white">DATE: '.date('M j, Y g:i a', strtotime($attendee['event_date'])).'</p>
-                <p class="text-white">LOCATION: '.$attendee['event_location'].'</p>
+                <div class="flex items-center mb-2">
+                    <div class="w-8 h-8 bg-white border-2 border-black flex items-center justify-center mr-3">
+                        <span class="text-success text-lg">✓</span>
+                    </div>
+                    <h3 class="text-white">TICKET VERIFIED!</h3>
+                </div>
+                <div class="grid grid-cols-1 gap-2 mt-4">
+                    <div class="flex items-center">
+                        <div class="bg-white text-success px-2 py-1 border-2 border-black mr-2 w-24 text-center">
+                            EVENT
+                        </div>
+                        <span class="text-white">'.$attendee['event_name'].'</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-white text-success px-2 py-1 border-2 border-black mr-2 w-24 text-center">
+                            ATTENDEE
+                        </div>
+                        <span class="text-white">'.$attendee['full_name'].'</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-white text-success px-2 py-1 border-2 border-black mr-2 w-24 text-center">
+                            DATE
+                        </div>
+                        <span class="text-white">'.date('M j, Y g:i a', strtotime($attendee['event_date'])).'</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="bg-white text-success px-2 py-1 border-2 border-black mr-2 w-24 text-center">
+                            LOCATION
+                        </div>
+                        <span class="text-white">'.$attendee['event_location'].'</span>
+                    </div>
+                </div>
               </div>';
     } else {
         echo '<div class="pixel-card animate-pixel mb-6 bg-danger border-2 border-black p-4">
-                <p class="text-white">TICKET NOT FOUND!</p>
+                <div class="flex items-center">
+                    <div class="w-8 h-8 bg-white border-2 border-black flex items-center justify-center mr-3">
+                        <span class="text-danger text-lg">✗</span>
+                    </div>
+                    <h3 class="text-white">TICKET NOT FOUND!</h3>
+                </div>
               </div>';
     }
 }
 ?>
 
-<div class="pixel-card animate-pixel max-w-md mx-auto my-8">
-    <div class="bg-primary border-b-2 border-black px-4 py-3">
-        <h3 class="text-white text-center">VERIFY TICKET</h3>
+<div class="mb-6 flex items-center">
+    <a href="index.php" class="mr-3 pixel-button bg-primary text-white px-3 py-1 border-2 border-black">
+        BACK
+    </a>
+    <h2 class="text-xl text-dark border-b-4 border-primary pb-2">VERIFY TICKET</h2>
+</div>
+
+<div class="pixel-card animate-pixel max-w-md mx-auto mb-8">
+    <div class="bg-primary border-b-2 border-black px-4 py-3 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full">
+            <div class="grid grid-cols-10 h-full">
+                <?php for($i = 0; $i < 10; $i++): ?>
+                    <div class="border-r-2 border-black opacity-10"></div>
+                <?php endfor; ?>
+            </div>
+        </div>
+        <h3 class="text-white text-center relative z-10">VERIFY TICKET</h3>
     </div>
-    <div class="p-6">
+    
+    <div class="p-6 bg-white">
+        <!-- Manual Verification Form -->
         <form method="POST" id="verify-form">
-            <div class="mb-4">
-                <label for="ticket_number" class="block mb-2">TICKET NUMBER</label>
+            <div class="mb-6">
+                <label for="ticket_number" class="block mb-2 flex items-center">
+                    <div class="w-6 h-6 bg-primary border-2 border-black flex items-center justify-center mr-2">
+                        <span class="text-white">#</span>
+                    </div>
+                    TICKET NUMBER
+                </label>
                 <input type="text" id="ticket_number" name="ticket_number" required
                        class="w-full px-4 py-2 pixel-input" placeholder="Enter ticket number">
             </div>
+            
             <button type="submit" class="pixel-button bg-primary text-white px-4 py-2 border-2 border-black w-full">
                 VERIFY
             </button>
         </form>
         
-        <!-- Add QR Code Reader Button -->
-        <div class="mt-4 text-center">
-            <button id="scanButton" class="pixel-button bg-accent text-white px-4 py-2 border-2 border-black w-full">
+        <!-- Divider with Pixel Art Style -->
+        <div class="my-6 relative">
+            <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t-2 border-black border-dashed"></div>
+            </div>
+            <div class="relative flex justify-center">
+                <span class="bg-white px-4 text-dark">OR</span>
+            </div>
+        </div>
+        
+        <!-- QR Code Reader Button -->
+        <div class="text-center">
+            <button id="scanButton" class="pixel-button bg-accent text-white px-4 py-2 border-2 border-black w-full flex items-center justify-center">
+                <div class="w-6 h-6 bg-white border-2 border-black flex items-center justify-center mr-2">
+                    <span class="text-accent">◎</span>
+                </div>
                 <span id="scanButtonText">SCAN QR CODE</span>
             </button>
         </div>
         
         <!-- QR Scanner Container (Hidden by default) -->
-        <div id="qr-reader-container" class="mt-4 hidden">
+        <div id="qr-reader-container" class="mt-6 hidden">
             <div class="pixel-card animate-pixel mb-4 bg-warning border-2 border-black p-4">
                 <p class="text-dark text-center">POINT CAMERA AT QR CODE</p>
             </div>
             
-            <div id="qr-reader" class="border-2 border-black"></div>
+            <div id="qr-reader" class="border-4 border-black shadow-pixel"></div>
             
             <div class="mt-4">
                 <button id="cancelScan" class="pixel-button bg-danger text-white px-4 py-2 border-2 border-black w-full">
@@ -86,8 +153,28 @@ document.addEventListener('DOMContentLoaded', function() {
         const videoElement = qrReader.querySelector('video');
         if (videoElement) {
             videoElement.style.width = '100%';
-            videoElement.style.border = '2px solid #000';
+            videoElement.style.border = '4px solid #000';
+            videoElement.style.imageRendering = 'pixelated';
         }
+        
+        // Style the scan region
+        const scanRegion = qrReader.querySelector('.scan-region-highlight');
+        if (scanRegion) {
+            scanRegion.style.border = '4px solid #5a65f1';
+            scanRegion.style.borderRadius = '0';
+        }
+        
+        // Style any buttons inside the QR reader
+        const buttons = qrReader.querySelectorAll('button');
+        buttons.forEach(button => {
+            button.style.border = '2px solid #000';
+            button.style.backgroundColor = '#5a65f1';
+            button.style.color = 'white';
+            button.style.padding = '4px 8px';
+            button.style.margin = '4px';
+            button.style.fontFamily = '"Press Start 2P", cursive';
+            button.style.fontSize = '10px';
+        });
     }
     
     scanButton.addEventListener('click', function() {
