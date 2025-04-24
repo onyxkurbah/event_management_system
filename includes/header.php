@@ -4,46 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Management System</title>
-    <!-- Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#5a65f1', // Bright blue
-                        secondary: '#32325d', // Dark blue
-                        accent: '#f6416c', // Pink
-                        success: '#00b894', // Green
-                        warning: '#fdcb6e', // Yellow
-                        danger: '#ff7675', // Red
-                        dark: '#2d3436',
-                        light: '#f8f9fa',
-                    },
-                    fontFamily: {
-                        pixel: ['"Press Start 2P"', 'cursive'],
-                    },
-                    boxShadow: {
-                        'pixel': '4px 4px 0 rgba(0,0,0,0.2)',
-                        'pixel-sm': '2px 2px 0 rgba(0,0,0,0.2)',
-                        'pixel-lg': '6px 6px 0 rgba(0,0,0,0.2)',
-                    },
-                },
-            },
-        }
-    </script>
+    
+    <!-- Production-ready Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts with preconnect for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
     <!-- Custom styles -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        /* Define custom colors directly instead of using Tailwind config */
+        .bg-primary { background-color: #5a65f1; }
+        .bg-secondary { background-color: #32325d; }
+        .bg-accent { background-color: #f6416c; }
+        .bg-success { background-color: #00b894; }
+        .bg-warning { background-color: #fdcb6e; }
+        .bg-danger { background-color: #ff7675; }
+        .bg-dark { background-color: #2d3436; }
+        .bg-light { background-color: #f8f9fa; }
         
-        * {
-            image-rendering: pixelated;
+        .text-primary { color: #5a65f1; }
+        .text-secondary { color: #32325d; }
+        .text-accent { color: #f6416c; }
+        .text-success { color: #00b894; }
+        .text-warning { color: #fdcb6e; }
+        .text-danger { color: #ff7675; }
+        .text-dark { color: #2d3436; }
+        .text-light { color: #f8f9fa; }
+        
+        /* Apply pixel font globally to specific elements */
+        h1, h2, h3, h4, h5, h6, 
+        button, .pixel-button, 
+        th, td, div, label, 
+        .font-pixel {
+            font-family: 'Press Start 2P', 'Courier New', monospace !important;
         }
         
+        /* Basic styles */
         body {
-            background-color: #a8d8e0; /* Light blue background to match the GIF */
+            background-color: #a8d8e0; /* Light blue background */
             position: relative;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
         }
         
         /* Background GIF */
@@ -64,44 +68,34 @@
             max-height: 100%;
             object-fit: contain;
             object-position: bottom;
-            image-rendering: pixelated;
         }
         
-        /* Content container to ensure proper spacing from the GIF */
+        /* Content container */
         .content-container {
             min-height: calc(100vh - 300px); /* Ensure content doesn't overlap with GIF */
             padding-bottom: 20px;
         }
         
-        .pixel-border {
-            border-style: solid;
-            border-width: 4px;
-            border-image-slice: 2;
-            border-image-width: 2;
-            border-image-outset: 0;
-            border-image-source: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M0 2h6M2 0v6' stroke='%23000' fill='none'/%3E%3C/svg%3E");
-            border-image-repeat: space;
-            image-rendering: pixelated;
-        }
-        
+        /* Pixel button style */
         .pixel-button {
             position: relative;
             display: inline-block;
-            box-shadow: 0 4px 0 0 #000;
+            box-shadow: 4px 4px 0 0 #000;
             transition: all 0.1s ease;
-            image-rendering: pixelated;
+            cursor: pointer;
         }
         
         .pixel-button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 0 0 #000;
+            box-shadow: 6px 6px 0 0 #000;
         }
         
         .pixel-button:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 0 0 #000;
+            box-shadow: 2px 2px 0 0 #000;
         }
         
+        /* Pixel input style */
         .pixel-input {
             border: 2px solid #000;
             box-shadow: 3px 3px 0 0 #000;
@@ -114,12 +108,14 @@
             box-shadow: 5px 5px 0 0 #000;
         }
         
+        /* Pixel card style */
         .pixel-card {
             border: 2px solid #000;
             box-shadow: 6px 6px 0 0 #000;
             background-color: rgba(255, 255, 255, 0.95);
         }
         
+        /* Pixel table style */
         .pixel-table th, .pixel-table td {
             border: 2px solid #000;
         }
@@ -137,40 +133,41 @@
             background-color: rgba(255, 255, 255, 0.95);
         }
         
-        .animate-pixel {
-            animation: pixelFadeIn 0.3s steps(5) forwards;
-        }
-        
+        /* Simple animation */
         @keyframes pixelFadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
+        .animate-pixel {
+            animation: pixelFadeIn 0.3s ease-out forwards;
+        }
+        
+        /* Main content area */
         main {
             background-color: rgba(248, 249, 250, 0.85);
-            border-radius: 8px;
             border: 2px solid #000;
             margin-top: 1rem;
             margin-bottom: 1rem;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col text-dark font-pixel text-xs">
-    <!-- Background GIF -->
+<body class="min-h-screen flex flex-col text-dark text-xs">
+    <!-- Background GIF - using a relative path instead of a blob URL -->
     <div class="bg-gif-container">
-        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/working-AQDNRVXYmPUpxM9ZswHiR7UV9H9Hop.gif" alt="Pixel Art Office" class="bg-gif">
+        <img src="assets/pixel-bg.gif" alt="Pixel Art Office" class="bg-gif">
     </div>
 
     <header class="bg-white border-b-2 border-black sticky top-0 z-10">
         <div class="container mx-auto px-4 py-4">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between">
                 <div class="flex items-center mb-4 md:mb-0">
-                    <div class="w-10 h-10 bg-primary border-2 border-black flex items-center justify-center mr-3 shadow-pixel">
+                    <div class="w-10 h-10 bg-primary border-2 border-black flex items-center justify-center mr-3" style="box-shadow: 3px 3px 0 0 #000;">
                         <span class="text-white text-xs">EM</span>
                     </div>
                     <h1 class="text-lg text-secondary">EVENT MANAGER</h1>
                 </div>
-                <nav class="flex gap-4">
+                <nav class="flex flex-wrap gap-4">
                     <a href="index.php" class="pixel-button bg-primary text-white px-4 py-2 border-2 border-black">
                         HOME
                     </a>

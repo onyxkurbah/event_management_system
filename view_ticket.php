@@ -113,7 +113,7 @@ $attendee = $conn->query("SELECT a.*, e.event_name, e.event_date, e.event_locati
             </div>
             
             <div class="flex items-center">
-                <div class="bg-primary text-white px-2 py-1 border-2 border-black mr-2 print-border print-black w-24 text-center">
+                <div class="bg-primary text-white px-2 py-1 border-2 border-black mr-2 print-border print-black w-24 text-center text-sm">
                     LOCATION
                 </div>
                 <span><?= $attendee['event_location'] ?></span>
