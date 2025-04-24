@@ -9,7 +9,6 @@ $attendee = $conn->query("SELECT a.*, e.event_name, e.event_date, e.event_locati
                          WHERE a.attendee_id = $attendee_id")->fetch(PDO::FETCH_ASSOC);
 ?>
 
-<!-- Add print-specific stylesheet -->
 <style type="text/css" media="print">
     /* Hide everything except the ticket when printing */
     body * {
@@ -28,6 +27,7 @@ $attendee = $conn->query("SELECT a.*, e.event_name, e.event_date, e.event_locati
         background-color: white !important;
         border: none !important;
         box-shadow: none !important;
+        padding: 20px;
     }
     
     /* Remove unnecessary elements when printing */
@@ -44,7 +44,82 @@ $attendee = $conn->query("SELECT a.*, e.event_name, e.event_date, e.event_locati
     #printable-ticket .print-border {
         border: 2px solid black !important;
     }
+    
+    /* Ensure QR code prints clearly */
+    #printable-ticket img {
+        max-width: 200px !important;
+        height: auto !important;
+        print-color-adjust: exact !important;
+        -webkit-print-color-adjust: exact !important;
+    }
+    
+    /* Improve layout for printing */
+    #printable-ticket .grid {
+        display: block !important;
+        margin-bottom: 10px !important;
+    }
+    
+    #printable-ticket .flex {
+        display: flex !important;
+        margin-bottom: 8px !important;
+    }
+    
+    /* Add page break control */
+    #printable-ticket {
+        page-break-inside: avoid;
+    }
+    
+    /* Ensure proper font rendering */
+    #printable-ticket * {
+        font-family: 'Courier New', monospace !important;
+        font-size: 12pt !important;
+    }
+    
+    #printable-ticket h3 {
+        font-size: 16pt !important;
+        font-weight: bold !important;
+        margin-bottom: 15px !important;
+    }
+</style>
 
+<!-- Add regular styling for the ticket -->
+<style>
+    /* Ticket animation */
+    @keyframes ticketAppear {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    
+    #printable-ticket {
+        animation: ticketAppear 0.4s ease-out forwards;
+    }
+    
+    /* Improved QR code styling */
+    .qr-container {
+        padding: 8px;
+        background: repeating-linear-gradient(
+            45deg,
+            rgba(0, 0, 0, 0.05),
+            rgba(0, 0, 0, 0.05) 10px,
+            rgba(255, 255, 255, 0.5) 10px,
+            rgba(255, 255, 255, 0.5) 20px
+        );
+    }
+    
+    /* Print button pulse animation */
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    .print-button {
+        animation: pulse 2s infinite;
+    }
+    
+    .print-button:hover {
+        animation: none;
+    }
 </style>
 
 <div class="mb-6 flex items-center">
@@ -75,7 +150,7 @@ $attendee = $conn->query("SELECT a.*, e.event_name, e.event_date, e.event_locati
         
         <!-- QR Code with Pixel Border -->
         <div class="flex justify-center mb-6">
-            <div class="p-2 bg-white border-2 border-black shadow-pixel">
+            <div class="p-3 bg-white border-2 border-black shadow-pixel qr-container">
                 <?php if ($attendee['qr_code_url']): ?>
                     <img src="<?= $attendee['qr_code_url'] ?>" alt="QR Code" class="border-2 border-black print-border w-48 h-48">
                 <?php else: ?>
@@ -93,6 +168,7 @@ $attendee = $conn->query("SELECT a.*, e.event_name, e.event_date, e.event_locati
                     ?>
                     <img src="<?= $qr_code_url ?>" alt="QR Code" class="border-2 border-black print-border w-48 h-48">
                 <?php endif; ?>
+                <div class="text-center mt-2 text-xs no-print">SCAN TO VERIFY</div>
             </div>
         </div>
         
@@ -114,7 +190,7 @@ $attendee = $conn->query("SELECT a.*, e.event_name, e.event_date, e.event_locati
             
             <div class="flex items-center">
                 <div class="bg-primary text-white px-2 py-1 border-2 border-black mr-2 print-border print-black w-24 text-center text-sm">
-                    LOCATION
+                    VENUE
                 </div>
                 <span><?= $attendee['event_location'] ?></span>
             </div>
@@ -145,8 +221,13 @@ $attendee = $conn->query("SELECT a.*, e.event_name, e.event_date, e.event_locati
         
         <!-- Action Buttons -->
         <div class="text-center mt-6 no-print">
-            <button onclick="printTicket()" class="pixel-button bg-accent text-white px-4 py-2 border-2 border-black">
-                PRINT TICKET
+            <button onclick="printTicket()" class="pixel-button bg-accent text-white px-4 py-2 border-2 border-black print-button">
+                <span class="flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                    PRINT TICKET
+                </span>
             </button>
             
             <a href="view_attendees.php?event_id=<?= $attendee['event_id'] ?>" class="pixel-button bg-primary text-white px-4 py-2 border-2 border-black ml-2">
@@ -158,8 +239,53 @@ $attendee = $conn->query("SELECT a.*, e.event_name, e.event_date, e.event_locati
 
 <script>
 function printTicket() {
-    window.print();
+    // Add a small delay to ensure styles are applied
+    setTimeout(() => {
+        window.print();
+    }, 100);
 }
+
+// Add a message when printing is done or canceled
+window.addEventListener('afterprint', function() {
+    // Create a temporary message
+    const message = document.createElement('div');
+    message.className = 'pixel-card animate-pixel mt-4 mb-4 bg-success border-2 border-black p-4 no-print';
+    message.innerHTML = `
+        <div class="flex items-center">
+            <div class="w-8 h-8 bg-white border-2 border-black flex items-center justify-center mr-3">
+                <span class="text-success text-lg">✓</span>
+            </div>
+            <span class="text-white">Ticket sent to printer!</span>
+        </div>
+    `;
+    
+    // Insert after the ticket
+    const ticket = document.getElementById('printable-ticket');
+    ticket.parentNode.insertBefore(message, ticket.nextSibling);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        message.style.animation = 'pixelFadeOut 0.3s ease-out forwards';
+        setTimeout(() => {
+            message.remove();
+        }, 300);
+    }, 3000);
+});
+
+// Add the fade out animation
+document.addEventListener('DOMContentLoaded', function() {
+    if (!document.querySelector('style[data-animation="pixelFadeOut"]')) {
+        const style = document.createElement('style');
+        style.setAttribute('data-animation', 'pixelFadeOut');
+        style.textContent = `
+            @keyframes pixelFadeOut {
+                from { opacity: 1; transform: translateY(0); }
+                to { opacity: 0; transform: translateY(-10px); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+});
 </script>
 
 <?php include 'includes/footer.php'; ?>

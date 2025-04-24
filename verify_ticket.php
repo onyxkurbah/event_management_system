@@ -11,53 +11,63 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                      ->fetch(PDO::FETCH_ASSOC);
 
     if ($attendee) {
-        echo '<div class="pixel-card animate-pixel mb-6 bg-success border-2 border-black p-4">
-                <div class="flex items-center mb-2">
-                    <div class="w-8 h-8 bg-white border-2 border-black flex items-center justify-center mr-3">
-                        <span class="text-success text-lg">✓</span>
+        echo '<div class="pixel-card animate-pixel mb-6 border-2 border-black p-4" style="background-color: #00b894;">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 bg-white border-2 border-black flex items-center justify-center mr-3" style="box-shadow: 2px 2px 0 0 #000;">
+                        <span style="color: #00b894; font-size: 1.25rem;">✓</span>
                     </div>
-                    <h3 class="text-white">TICKET VERIFIED!</h3>
+                    <h3 style="color: #ffffff; font-size: 1.25rem;">TICKET VERIFIED!</h3>
                 </div>
-                <div class="grid grid-cols-1 gap-2 mt-4">
-                    <div class="flex items-center">
-                        <div class="bg-white text-success px-2 py-1 border-2 border-black mr-2 w-24 text-center">
+                <div class="mt-4">
+                    <div class="flex items-center mb-3">
+                        <div style="min-width: 100px; background-color: white; border: 2px solid black; padding: 4px 8px; text-align: center; box-shadow: 2px 2px 0 0 #000; margin-right: 10px; font-size: 12px;">
                             EVENT
                         </div>
-                        <span class="text-white">'.$attendee['event_name'].'</span>
+                        <span style="color: #ffffff; font-weight: bold; flex: 1;">'.$attendee['event_name'].'</span>
                     </div>
-                    <div class="flex items-center">
-                        <div class="bg-white text-success px-2 py-1 border-2 border-black mr-2 w-24 text-center">
+                    <div class="flex items-center mb-3">
+                        <div style="min-width: 100px; background-color: white; border: 2px solid black; padding: 4px 8px; text-align: center; box-shadow: 2px 2px 0 0 #000; margin-right: 10px; font-size: 12px;">
                             ATTENDEE
                         </div>
-                        <span class="text-white">'.$attendee['full_name'].'</span>
+                        <span style="color: #ffffff; font-weight: bold; flex: 1;">'.$attendee['full_name'].'</span>
                     </div>
-                    <div class="flex items-center">
-                        <div class="bg-white text-success px-2 py-1 border-2 border-black mr-2 w-24 text-center">
+                    <div class="flex items-center mb-3">
+                        <div style="min-width: 100px; background-color: white; border: 2px solid black; padding: 4px 8px; text-align: center; box-shadow: 2px 2px 0 0 #000; margin-right: 10px; font-size: 12px;">
                             DATE
                         </div>
-                        <span class="text-white">'.date('M j, Y g:i a', strtotime($attendee['event_date'])).'</span>
+                        <span style="color: #ffffff; flex: 1;">'.date('M j, Y g:i a', strtotime($attendee['event_date'])).'</span>
                     </div>
-                    <div class="flex items-center">
-                        <div class="bg-white text-success px-2 py-1 border-2 border-black mr-2 w-24 text-center">
+                    <div class="flex items-center mb-3">
+                        <div style="min-width: 100px; background-color: white; border: 2px solid black; padding: 4px 8px; text-align: center; box-shadow: 2px 2px 0 0 #000; margin-right: 10px; font-size: 12px;">
                             LOCATION
                         </div>
-                        <span class="text-white">'.$attendee['event_location'].'</span>
+                        <span style="color: #ffffff; flex: 1;">'.$attendee['event_location'].'</span>
                     </div>
                 </div>
-              </div>';
+                <div class="mt-4 text-center">
+                    <button onclick="closeVerification()" class="pixel-button bg-white border-2 border-black px-4 py-2" style="color: #00b894;">
+                        OK
+                    </button>
+                </div>
+            </div>';
     } else {
-        echo '<div class="pixel-card animate-pixel mb-6 bg-danger border-2 border-black p-4">
-                <div class="flex items-center">
-                    <div class="w-8 h-8 bg-white border-2 border-black flex items-center justify-center mr-3">
-                        <span class="text-danger text-lg">✗</span>
+        echo '<div class="pixel-card animate-pixel mb-6 border-2 border-black p-4" style="background-color: #ff7675;">
+                <div class="flex items-center mb-2">
+                    <div class="w-10 h-10 bg-white border-2 border-black flex items-center justify-center mr-3" style="box-shadow: 2px 2px 0 0 #000;">
+                        <span style="color: #ff7675; font-size: 1.25rem;">✗</span>
                     </div>
-                    <h3 class="text-white">TICKET NOT FOUND!</h3>
+                    <h3 style="color: #ffffff; font-size: 1.25rem;">TICKET NOT FOUND!</h3>
                 </div>
-              </div>';
+                <p style="color: #ffffff; margin-top: 0.5rem;">The ticket number you entered could not be verified. Please check and try again.</p>
+                <div class="mt-4 text-center">
+                    <button onclick="closeVerification()" class="pixel-button bg-white border-2 border-black px-4 py-2" style="color: #ff7675;">
+                        OK
+                    </button>
+                </div>
+            </div>';
     }
 }
 ?>
-
 <div class="mb-6 flex items-center">
     <a href="index.php" class="mr-3 pixel-button bg-primary text-white px-3 py-1 border-2 border-black">
         BACK
@@ -249,4 +259,28 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<script>
+function closeVerification() {
+    // Find the verification result div and hide it with animation
+    const verificationResult = document.querySelector('.pixel-card.animate-pixel.mb-6');
+    if (verificationResult) {
+        verificationResult.style.animation = 'pixelFadeOut 0.3s ease-out forwards';
+        setTimeout(() => {
+            verificationResult.style.display = 'none';
+        }, 300);
+    }
+}
+
+// Add the fade out animation to the stylesheet
+document.addEventListener('DOMContentLoaded', function() {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pixelFadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+    `;
+    document.head.appendChild(style);
+});
+</script>
 <?php include 'includes/footer.php'; ?>
