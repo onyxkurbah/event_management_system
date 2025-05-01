@@ -1,6 +1,6 @@
 <?php
 include 'includes/header.php';
-include 'db.php';
+include 'includes/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $attendee_id = $_POST['attendee_id'];
@@ -8,9 +8,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $age = $_POST['age'];
+    $gender = $_POST['gender']; // Added gender field
 
     $sql = "UPDATE attendees 
-            SET full_name = :full_name, email = :email, phone = :phone, age = :age
+            SET full_name = :full_name, email = :email, phone = :phone, age = :age, gender = :gender
             WHERE attendee_id = :attendee_id";
     $stmt = $conn->prepare($sql);
     $stmt->execute([
@@ -18,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ':email' => $email,
         ':phone' => $phone,
         ':age' => $age,
+        ':gender' => $gender, // Added gender parameter
         ':attendee_id' => $attendee_id
     ]);
 
@@ -74,6 +76,16 @@ $event = $conn->query("SELECT * FROM events WHERE event_id = {$attendee['event_i
                     <input type="number" id="age" name="age" min="1" max="120" 
                            value="<?= isset($attendee['age']) ? htmlspecialchars($attendee['age']) : '' ?>"
                            class="w-full px-4 py-2 pixel-input">
+                </div>
+                
+                <div>
+                    <label for="gender" class="block mb-2">GENDER</label>
+                    <select id="gender" name="gender" class="w-full px-4 py-2 pixel-input">
+                        <option value="Male" <?= (isset($attendee['gender']) && $attendee['gender'] == 'Male') ? 'selected' : '' ?>>Male</option>
+                        <option value="Female" <?= (isset($attendee['gender']) && $attendee['gender'] == 'Female') ? 'selected' : '' ?>>Female</option>
+                        <option value="Non-Binary" <?= (isset($attendee['gender']) && $attendee['gender'] == 'Non-Binary') ? 'selected' : '' ?>>Non-Binary</option>
+                        <option value="Prefer not to say" <?= (isset($attendee['gender']) && $attendee['gender'] == 'Prefer not to say') ? 'selected' : '' ?>>Prefer not to say</option>
+                    </select>
                 </div>
                 
                 <div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 16, 2025 at 03:29 PM
+-- Generation Time: Apr 30, 2025 at 05:54 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,17 +34,11 @@ CREATE TABLE `attendees` (
   `email` varchar(255) NOT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `age` int(11) DEFAULT NULL,
+  `gender` varchar(20) DEFAULT NULL,
   `ticket_number` varchar(50) NOT NULL,
   `qr_code_url` varchar(255) DEFAULT NULL,
   `registered_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `attendees`
---
-
-INSERT INTO `attendees` (`attendee_id`, `event_id`, `full_name`, `email`, `phone`, `age`, `ticket_number`, `qr_code_url`, `registered_at`) VALUES
-(28, 17, 'Onyx Kurbah', 'onyxkurbah0@gmail.com', '7630048527', 20, 'TICKET-67ffaf75d747c', 'https://api.qrserver.com/v1/create-qr-code/?data=TICKET-67ffaf75d747c&size=200x200&format=png', '2025-04-16 13:24:05');
 
 -- --------------------------------------------------------
 
@@ -61,14 +55,6 @@ CREATE TABLE `events` (
   `ticket_price` decimal(10,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `events`
---
-
-INSERT INTO `events` (`event_id`, `event_name`, `event_description`, `event_date`, `event_location`, `ticket_price`, `created_at`) VALUES
-(17, 'Hackathon 2025', 'Join for fun', '2025-04-30 11:57:00', 'Synod College, BCA Department', 20.00, '2025-04-16 13:23:23'),
-(18, 'VTC Presentation', 'It\'s Time To showcase your work', '2025-04-26 09:41:00', 'Synod College, BCA Department', 0.00, '2025-04-16 13:27:00');
 
 --
 -- Indexes for dumped tables
@@ -96,13 +82,13 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `attendees`
 --
 ALTER TABLE `attendees`
-  MODIFY `attendee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `attendee_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `event_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- Constraints for dumped tables

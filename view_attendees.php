@@ -1,6 +1,6 @@
 <?php
 include 'includes/header.php';
-include 'db.php';
+include 'includes/db.php';
 
 $event_id = $_GET['event_id'];
 $event = $conn->query("SELECT * FROM events WHERE event_id = $event_id")->fetch(PDO::FETCH_ASSOC);
@@ -73,6 +73,7 @@ if (!empty($search)) {
                     <th class="px-4 py-3 text-left">EMAIL</th>
                     <th class="px-4 py-3 text-left">PHONE</th>
                     <th class="px-4 py-3 text-left">AGE</th>
+                    <th class="px-4 py-3 text-left">GENDER</th>
                     <th class="px-4 py-3 text-left">TICKET #</th>
                     <th class="px-4 py-3 text-left">ACTIONS</th>
                 </tr>
@@ -85,6 +86,7 @@ if (!empty($search)) {
                             <td class="px-4 py-3"><?= $attendee['email'] ?></td>
                             <td class="px-4 py-3"><?= $attendee['phone'] ?></td>
                             <td class="px-4 py-3"><?= isset($attendee['age']) ? $attendee['age'] : 'N/A' ?></td>
+                            <td class="px-4 py-3"><?= isset($attendee['gender']) ? $attendee['gender'] : 'Not Specified' ?></td>
                             <td class="px-4 py-3">
                                 <span class="bg-primary text-white px-2 py-1 border-2 border-black"><?= $attendee['ticket_number'] ?></span>
                             </td>
@@ -109,7 +111,7 @@ if (!empty($search)) {
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6" class="px-4 py-3 text-center">NO ATTENDEES REGISTERED YET.</td>
+                        <td colspan="7" class="px-4 py-3 text-center">NO ATTENDEES REGISTERED YET.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>

@@ -1,6 +1,6 @@
 <?php
 include 'includes/header.php';
-include 'db.php';
+include 'includes/db.php';
 include 'includes/functions.php';
 
 $event_id = isset($_GET['event_id']) ? $_GET['event_id'] : '';
@@ -10,12 +10,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $full_name = $_POST['full_name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
-    $age = $_POST['age']; // Added age field
+    $age = $_POST['age'];
+    $gender = $_POST['gender']; // New gender field
     $ticket_number = generateTicketNumber();
     $qr_code_url = generateQRCode($ticket_number);
 
-    $sql = "INSERT INTO attendees (event_id, full_name, email, phone, age, ticket_number, qr_code_url) 
-            VALUES (:event_id, :full_name, :email, :phone, :age, :ticket_number, :qr_code_url)";
+    $sql = "INSERT INTO attendees (event_id, full_name, email, phone, age, gender, ticket_number, qr_code_url) 
+            VALUES (:event_id, :full_name, :email, :phone, :age, :gender, :ticket_number, :qr_code_url)";
     $stmt = $conn->prepare($sql);
     $stmt->execute([
         ':event_id' => $event_id,
@@ -23,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ':email' => $email,
         ':phone' => $phone,
         ':age' => $age,
+        ':gender' => $gender,
         ':ticket_number' => $ticket_number,
         ':qr_code_url' => $qr_code_url
     ]);
@@ -88,6 +90,16 @@ $events = $conn->query("SELECT * FROM events")->fetchAll(PDO::FETCH_ASSOC);
                     <label for="age" class="block mb-2">AGE</label>
                     <input type="number" id="age" name="age" min="1" max="120"
                            class="w-full px-4 py-2 pixel-input">
+                </div>
+                
+                <div>
+                    <label for="gender" class="block mb-2">GENDER</label>
+                    <select id="gender" name="gender" class="w-full px-4 py-2 pixel-input">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Non-Binary">Non-Binary</option>
+                        <option value="Prefer not to say">Prefer not to say</option>
+                    </select>
                 </div>
             </div>
             

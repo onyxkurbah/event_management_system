@@ -1,6 +1,6 @@
 <?php
 include 'includes/header.php';
-include 'db.php';
+include 'includes/db.php';
 
 $attendee_id = $_GET['attendee_id'];
 $attendee = $conn->query("SELECT a.*, e.event_name, e.event_date, e.event_location 

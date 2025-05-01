@@ -1,6 +1,6 @@
 <?php
 include 'includes/header.php';
-include 'db.php';
+include 'includes/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $ticket_number = $_POST['ticket_number'];
