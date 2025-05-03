@@ -255,7 +255,7 @@ window.addEventListener('afterprint', function() {
             <div class="w-8 h-8 bg-white border-2 border-black flex items-center justify-center mr-3">
                 <span class="text-success text-lg">✓</span>
             </div>
-            <span class="text-white">Ticket sent to printer!</span>
+            <span class="text-black font-bold">Ticket sent to printer!</span>
         </div>
     `;
     
